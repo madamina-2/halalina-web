@@ -1,14 +1,25 @@
+# Menggunakan base image yang ringan
 FROM node:18-alpine
 
+# Mengatur direktori kerja
 WORKDIR /app
 
-COPY package.json .
 
-RUN npm install
-# RUN npm i -g serve
-
+# Salin semua file proyek ke dalam container
 COPY . .
 
-EXPOSE 5173
 
-CMD [ "npm", "run", "dev" ]
+# Instal dependensi
+RUN npm install
+
+# Build aplikasi untuk mode produksi
+RUN npm run build
+
+# Instal `serve` untuk melayani file statis
+RUN npm install -g serve
+
+# Ekspos port untuk aplikasi
+EXPOSE 3000
+
+# Command untuk menjalankan aplikasi dalam mode produksi
+CMD ["serve", "-s", "dist", "-l", "3000"]
