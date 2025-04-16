@@ -1,5 +1,5 @@
 import React from 'react'
-import customers from '/customers.svg'
+
 
 const GeneralLayout = ({ children }) => {
   return (
@@ -10,7 +10,7 @@ const GeneralLayout = ({ children }) => {
       >
         <div className='h-screen w-screen bg-black opacity-40 pt-[4.7rem] pl-[4rem] '>
           <img
-            src={customers}
+            src="customers.svg"
             alt='Logo'
             className='w-[48rem] h-full absolute bottom-0 mx-[20%]'
           />
