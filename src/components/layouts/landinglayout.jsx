@@ -1,12 +1,12 @@
 import React from 'react'
-import customers from '/assets/customers.svg'
+import customers from '/customers.svg'
 
 const LandingLayout = ({ children }) => {
   return (
     <>
       <div
         id='container-landing'
-        className='relative h-screen w-screen bg-[linear-gradient(247.81deg,_rgba(229,_179,_63,_0.9)_1.7%,_rgba(29,_169,_150,_0.9)_78.83%)] pt-[6rem] pl-[4rem] overflow-hidden z-0'
+        className='relative h-screen w-screen bg-[linear-gradient(247.81deg,_rgba(229,_179,_63,_0.9)_1.7%,_rgba(29,_169,_150,_0.9)_78.83%)] pt-[4.7rem] pl-[4rem] overflow-hidden z-0'
       >
         <h1 className='text-white font-medium text-[3rem] leading-[100%] tracking-[0%] font-inter'>
           Permudah perjalanan
@@ -23,7 +23,7 @@ const LandingLayout = ({ children }) => {
         />
       </div>
       {/* Content placed above the background */}
-      <div className='absolute top-0 left-0'>{children}</div>
+      <div className='absolute top-0 left-0 w-[100%] h-[100%]'>{children}</div>
     </>
   )
 }
