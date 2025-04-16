@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', response.data.data.access_token)
       localStorage.setItem('refresh_token', response.data.data.refresh_token)
 
-      showAlert(`${response?.data?.message}.`, 'OK', () => navigate('/login'))
+      showAlert(`${response?.data?.message}.`, 'OK', () => navigate('/profiling'))
 
       return { success: true }
     } catch (error) {

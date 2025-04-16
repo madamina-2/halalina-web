@@ -23,6 +23,9 @@ const Profiling = () => {
     setBalance(formattedValue);
   };
 
+
+  
+
   const handleAgeChange = (e) => {
     const value = e.target.value;
     if (/^\d{0,2}$/.test(value)) {
