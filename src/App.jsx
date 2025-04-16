@@ -1,19 +1,35 @@
-import { useState } from 'react'
-import reactLogo from '/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import {Route, Routes} from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Loginpage from './pages/loginpage/loginpage'
 import RegisterPage from './pages/registerpage/registerpage'
+import DashboardPage from './pages/dashboardpage'
+import LandingPage from './pages/landingpage'
+import PrivateRoute from './routes/PrivateRoute'
+import InvestProfilePage from './pages/investprofilepage'
 
 function App() {
-  
   return (
-   <Routes> 
-    <Route path="/" element={<Loginpage/>} />
-    <Route path="/login" element={<Loginpage/>} />
-    <Route path="/register" element={<RegisterPage/>} />
-   </Routes>
+    <Routes>
+      <Route path='/' element={<LandingPage />} />
+      <Route path='/login' element={<Loginpage />} />
+      <Route path='/register' element={<RegisterPage />} />
+      <Route
+        path='/dashboard'
+        element={
+          <PrivateRoute>
+            <DashboardPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='/invest-profile'
+        element={
+          <PrivateRoute>
+            <InvestProfilePage />
+          </PrivateRoute>
+        }
+      />
+    </Routes>
   )
 }
 

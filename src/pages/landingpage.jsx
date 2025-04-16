@@ -3,11 +3,13 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import LandingLayout from '../components/layouts/landinglayout'
 import Modal from '../components/organisms/modal'
 import { productData } from '../utils/products'
+import { useNavigate } from 'react-router-dom'
 
 export default function LandingPage() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [open, setOpen] = useState(false)
   const [selectedCard, setSelectedCard] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,6 +31,10 @@ export default function LandingPage() {
   const handleCardClick = (card) => {
     setSelectedCard(card)
     setOpen(true)
+  }
+
+  const handleToRegister = () => {
+    navigate('/register')
   }
 
   return (
@@ -84,7 +90,10 @@ export default function LandingPage() {
           </div>
 
           {/* CTA Button */}
-          <button className='bg-[#136A5E] hover:bg-emerald-800 text-white px-6 py-2 rounded-lg shadow w-fit self-end mt-[5rem] mr-[3rem]'>
+          <button
+            className='bg-[#136A5E] hover:bg-emerald-800 text-white px-6 py-2 rounded-lg shadow w-fit self-end mt-[5rem] mr-[3rem]'
+            onClick={() => handleToRegister()}
+          >
             Daftar Sekarang
           </button>
         </div>
@@ -95,7 +104,7 @@ export default function LandingPage() {
         buttonText='Oke'
         open={open}
         data={selectedCard}
-        bgImage='/deposito.png'
+        bgImage={selectedCard?.image || null}
         onClose={() => setOpen(false)}
       />
     </LandingLayout>

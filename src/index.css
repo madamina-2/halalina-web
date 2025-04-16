@@ -5,6 +5,45 @@
     padding: 0;
     font-family: "Inter", sans-serif;
     font-style: normal;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.swal2-title {
+    font-size: 20px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+}
+
+.swal2-html-container {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+}
+
+.swal-popup {
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+}
+
+.swal2-confirm {
+    background-color: #12B5A5;
+    color: #fff;
+    padding: 0.5rem 6rem;
+    font-size: 16px;
+    border-radius: 20px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+}
+
+.swal-confirm-btn {
+    background-color: #12B5A5;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
 }
 
 @layer base {
