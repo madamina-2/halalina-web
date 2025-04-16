@@ -25,7 +25,7 @@ const Modal = ({
       <DialogPanel className='relative bg-white max-w-md mx-auto rounded-lg shadow-xl'>
         {bgImage ? (
           <div
-            className={`h-[10rem] bg-[url('${bgImage}')] bg-cover bg-no-repeat`}
+            className={`h-[10rem] bg-[url(${bgImage})] bg-cover bg-no-repeat`}
           />
         ) : null}
         <div className='flex items-center flex-col p-6 '>

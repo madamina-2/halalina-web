@@ -12,12 +12,14 @@ const GeneralLayout = ({ children }) => {
           <img
             src={customers}
             alt='Logo'
-            className='w-[48rem] h-auto absolute bottom-0 mx-[20%]'
+            className='w-[48rem] h-full absolute bottom-0 mx-[20%]'
           />
         </div>
       </div>
       {/* Content placed above the background */}
-      <div className='absolute top-0 left-0 w-[100%] h-[100%]'>{children}</div>
+      <div className='absolute top-0 left-0 w-full min-h-screen'>
+        {children}
+      </div>
     </>
   )
 }
