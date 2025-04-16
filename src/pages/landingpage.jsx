@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Dialog } from '@headlessui/react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import LandingLayout from '../components/layouts/landinglayout'
+import Modal from '../components/organisms/modal'
 
 const dummyCards = [
   {
@@ -89,7 +89,9 @@ export default function LandingPage() {
                     onClick={() => handleCardClick(card)}
                     className='cursor-pointer p-6 w-64 bg-[rgba(19,106,94,0.5)] text-white border border-[#136A5E] rounded-lg shadow hover:bg-[#136A5E] transition-colors'
                   >
-                    <h3 className='text-xl font-bold mb-2'>{card.title}</h3>
+                    <h3 className='text-xl font-bold mb-2 text-center'>
+                      {card.title}
+                    </h3>
                     <p className='text-sm'>{card.content.slice(0, 100)}...</p>
                   </div>
                 )
@@ -111,27 +113,13 @@ export default function LandingPage() {
       </div>
 
       {/* Modal */}
-      <Dialog
+      <Modal
+        buttonText='Oke'
         open={open}
+        data={selectedCard}
+        bgImage='/assets/deposito.png'
         onClose={() => setOpen(false)}
-        className='fixed inset-0 z-50 flex items-center justify-center'
-      >
-        <div className='fixed inset-0 bg-black opacity-30' aria-hidden='true' />
-        <div className='relative bg-white p-6 max-w-md mx-auto rounded-lg shadow-xl'>
-          <Dialog.Title className='text-xl font-bold mb-4'>
-            {selectedCard?.title}
-          </Dialog.Title>
-          <Dialog.Description className='text-gray-700'>
-            {selectedCard?.content}
-          </Dialog.Description>
-          <button
-            onClick={() => setOpen(false)}
-            className='mt-4 text-emerald-700 hover:underline'
-          >
-            Tutup
-          </button>
-        </div>
-      </Dialog>
+      />
     </LandingLayout>
   )
 }
