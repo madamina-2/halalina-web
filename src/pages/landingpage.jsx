@@ -38,7 +38,7 @@ export default function LandingPage() {
         <div className='w-45 h-45 bg-white rounded-bl-full flex justify-center'>
           <div className='flex flex-col ml-8 mt-3'>
             <img
-              src='/assets/halalina.svg'
+              src='/halalina.svg'
               alt='Halalina Logo'
               className='w-30 h-auto'
             />
@@ -95,7 +95,7 @@ export default function LandingPage() {
         buttonText='Oke'
         open={open}
         data={selectedCard}
-        bgImage='/assets/deposito.png'
+        bgImage='/deposito.png'
         onClose={() => setOpen(false)}
       />
     </LandingLayout>

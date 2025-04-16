@@ -18,11 +18,7 @@ export default function DashboardPage() {
       {/* Navbar */}
       <nav className='bg-white shadow-md px-8 py-4 flex items-center justify-between'>
         <div className='flex items-center gap-3'>
-          <img
-            src='/assets/halalina_nocaption.svg'
-            alt='Logo'
-            className='w-10 h-10'
-          />
+          <img src='/halalina_nocaption.svg' alt='Logo' className='w-10 h-10' />
           <span className='text-emerald-600 text-xl font-bold'>HALALINA</span>
         </div>
         <div className='flex items-center gap-6 text-sm font-medium'>

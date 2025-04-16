@@ -1,5 +1,5 @@
 import React from 'react'
-import customers from '/assets/customers.svg'
+import customers from '/customers.svg'
 
 const LandingLayout = ({ children }) => {
   return (
