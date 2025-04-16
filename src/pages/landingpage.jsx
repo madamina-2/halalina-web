@@ -2,29 +2,7 @@ import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import LandingLayout from '../components/layouts/landinglayout'
 import Modal from '../components/organisms/modal'
-
-const dummyCards = [
-  {
-    title: 'BSI Deposito',
-    content:
-      'Simpan dana dengan tenang dan aman dijamin bank. Imbal hasil kompetitif, bebas riba, dan dikelola sesuai prinsip syariah. Cocok untuk kamu yang ingin cuan berkah!',
-  },
-  {
-    title: 'Reksadana Syariah',
-    content:
-      'Mulai investasi dengan tenang, hasil stabil, bebas riba, dan sesuai prinsip syariah. Dana bisa dicairkan cepat, cocok buat kamu yang cari cuan halal dan berkah!',
-  },
-  {
-    title: 'Emas Syariah',
-    content:
-      'Investasi emas dengan mudah, sesuai syariah, dan nilai yang terus bertumbuh. Ideal untuk jangka panjang!',
-  },
-  {
-    title: 'Saham Syariah',
-    content:
-      'Pilih saham dari perusahaan yang sesuai prinsip syariah. Lebih aman dan berkah!',
-  },
-]
+import { productData } from '../utils/products'
 
 export default function LandingPage() {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -33,19 +11,19 @@ export default function LandingPage() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveIndex((prevIndex) => (prevIndex + 1) % dummyCards.length)
+      setActiveIndex((prevIndex) => (prevIndex + 1) % productData.length)
     }, 3000)
     return () => clearInterval(interval)
   }, [])
 
   const handlePrev = () => {
     setActiveIndex(
-      (prevIndex) => (prevIndex - 1 + dummyCards.length) % dummyCards.length
+      (prevIndex) => (prevIndex - 1 + productData.length) % productData.length
     )
   }
 
   const handleNext = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % dummyCards.length)
+    setActiveIndex((prevIndex) => (prevIndex + 1) % productData.length)
   }
 
   const handleCardClick = (card) => {
@@ -81,8 +59,8 @@ export default function LandingPage() {
             </button>
             <div className='flex gap-4'>
               {[0, 1].map((offset) => {
-                const index = (activeIndex + offset) % dummyCards.length
-                const card = dummyCards[index]
+                const index = (activeIndex + offset) % productData.length
+                const card = productData[index]
                 return (
                   <div
                     key={index}
