@@ -6,6 +6,7 @@ import DashboardPage from './pages/dashboardpage'
 import LandingPage from './pages/landingpage'
 import PrivateRoute from './routes/PrivateRoute'
 import InvestProfilePage from './pages/investprofilepage'
+import Profiling from './pages/profilingpage/profilingpage'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path='/' element={<LandingPage />} />
       <Route path='/login' element={<Loginpage />} />
       <Route path='/register' element={<RegisterPage />} />
+      <Route path='/profiling' element={<Profiling />} />
       <Route
         path='/dashboard'
         element={

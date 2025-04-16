@@ -1,17 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 import HomeLayout from '../components/layouts/homelayout'
+import { useResultStore } from '../store/resultStore'
+import { useUserStore } from '../store/userStore'
 import { investProfile } from '../utils/profiles'
-
-const data = [
-  { name: 'BSI Deposito', value: 40, color: '#FFA726' },
-  { name: 'Tabungan Emas', value: 30, color: '#FFEB3B' },
-  { name: 'SBSN', value: 20, color: '#26A69A' },
-  { name: 'Reksadana Pasar Uang Syariah', value: 10, color: '#00ACC1' },
-]
-
+import { useNavigate } from 'react-router-dom'
+import { convertInvestmentData } from '../utils/general'
 export default function InvestProfilePage() {
   const [hovered, setHovered] = useState(null)
+  const [userResult, setUserResult] = useState([])
+  const [data, setData] = useState([])
+  const { result } = useResultStore()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const resultData = investProfile.find(
+      (item) => item.name === result.data.risk_profile
+    )
+    const mappingChart = convertInvestmentData(result.data.floored_percentages)
+
+    setUserResult(resultData)
+    setData(mappingChart)
+  }, [])
 
   return (
     <HomeLayout>
@@ -24,13 +34,13 @@ export default function InvestProfilePage() {
                 <div className='flex items-center gap-4'>
                   {/* <span className='text-4xl'>🐎</span> */}
                   <img
-                    src={investProfile[0].img}
+                    src={userResult.img}
                     alt='profile-logo'
                     className='w-20 h-auto'
                   />
                   <div>
                     <h2 className='text-lg font-bold leading-snug'>
-                      {investProfile[0].title}
+                      {userResult.title}
                     </h2>
                   </div>
                 </div>
@@ -40,19 +50,19 @@ export default function InvestProfilePage() {
                   </span>
                   <span
                     className={`font-semibold px-8 py-2 rounded-full text-md ${
-                      investProfile[0].name === 'Moderate'
+                      userResult.name === 'Moderate'
                         ? 'bg-emerald-100 text-emerald-700'
-                        : investProfile[0].name === 'Agresif'
+                        : userResult.name === 'Agresif'
                         ? 'text-[#A72814] bg-[#FFF1EF]'
                         : 'text-[#866724] bg-[#FFF1EF]'
                     }`}
                   >
-                    {investProfile[0].name}
+                    {userResult.name}
                   </span>
                 </div>
               </div>
               <p className='text-sm text-gray-700 leading-relaxed'>
-                {investProfile[0].description}
+                {userResult.description}
               </p>
             </div>
           </div>
@@ -75,8 +85,9 @@ export default function InvestProfilePage() {
                         cy='50%'
                         outerRadius={100}
                         innerRadius={70}
-                        onMouseEnter={(_, index) => setHovered(index)}
-                        onMouseLeave={() => setHovered(null)}
+                        // onMouseEnter={(_, index) => setHovered(index)}
+                        // onMouseLeave={() => setHovered(null)}
+                        label={({ name, value }) => `${value}%`} // 👈 ini kuncinya
                       >
                         {data.map((entry, index) => (
                           <Cell
@@ -105,7 +116,10 @@ export default function InvestProfilePage() {
             </div>
           </div>
         </div>
-        <button className='bg-[#1DA996] hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow mt-10 px-5 w-fit self-end'>
+        <button
+          className='bg-[#1DA996] hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow mt-10 px-5 w-fit self-end'
+          onClick={() => navigate('/dashboard')}
+        >
           Mulai Investasi
         </button>
       </div>
