@@ -17,7 +17,7 @@ const FormLogin = () => {
         <form className="w-full py-8 flex flex-col gap-6 max-w-md mx-auto">
           <div className="flex flex-col items-center">
             <img
-              src="halalina.png"
+              src="halalina.svg"
               className="w-[200px] sm:w-[240px] md:w-[275px] h-auto"
               alt="Logo Halalina"
             />

@@ -1,5 +1,5 @@
 import React from 'react'
-import customers from '/customers.svg'
+
 
 const LandingLayout = ({ children }) => {
   return (
@@ -17,7 +17,7 @@ const LandingLayout = ({ children }) => {
         </h1>
 
         <img
-          src={customers}
+          src="customers.svg"
           alt='Logo'
           className='w-[48rem] h-auto absolute bottom-0'
         />
