@@ -1,18 +1,13 @@
 // src/pages/DashboardPage.jsx
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 import GeneralLayout from '../components/layouts/generallayout'
 import Modal from '../components/organisms/modal'
 import { useAuth } from '../context/AuthContext'
+import { useResultStore } from '../store/resultStore'
+import { convertInvestmentData } from '../utils/general'
 import { productData } from '../utils/products'
-
-const data = [
-  { name: 'Deposito', value: 40, color: '#FFA726' },
-  { name: 'Tabungan Emas', value: 30, color: '#FFEB3B' },
-  { name: 'SBSN', value: 20, color: '#26A69A' },
-  { name: 'Reksadana Syariah', value: 10, color: '#00ACC1' },
-]
-
+import { showAlert } from '../components/organisms/showalerts'
 export default function DashboardPage() {
   const [hovered, setHovered] = useState(null)
   const [open, setOpen] = useState(false)
@@ -20,9 +15,22 @@ export default function DashboardPage() {
 
   const { logout } = useAuth()
 
+  const [data, setData] = useState([])
+  const { result } = useResultStore()
+  // const navigate = useNavigate()
+
+  useEffect(() => {
+    const mappingChart = convertInvestmentData(result.data.floored_percentages)
+    setData(mappingChart)
+  }, [])
+
   const handleSelectedCard = (item) => {
     setSelectedItem(item)
     setOpen(true)
+  }
+
+  const handleShowAlert = () => {
+    showAlert('Selamat!', 'OK', null)
   }
 
   return (
@@ -39,12 +47,6 @@ export default function DashboardPage() {
             className='text-gray-600 hover:font-bold hover:cursor-pointer text-[#12B5A5]-800'
           >
             Beranda
-          </a>
-          <a
-            href='/invest-profile'
-            className='text-gray-600 hover:font-bold hover:cursor-pointer text-[#12B5A5]-800'
-          >
-            (result)
           </a>
           <a
             onClick={() => logout()}
@@ -123,10 +125,11 @@ export default function DashboardPage() {
                     nameKey='name'
                     cx='50%'
                     cy='50%'
-                    outerRadius={90}
-                    innerRadius={60}
-                    onMouseEnter={(_, index) => setHovered(index)}
-                    onMouseLeave={() => setHovered(null)}
+                    outerRadius={100}
+                    innerRadius={70}
+                    // onMouseEnter={(_, index) => setHovered(index)}
+                    // onMouseLeave={() => setHovered(null)}
+                    label={({ name, value }) => `${value}%`} // 👈 ini kuncinya
                   >
                     {data.map((entry, index) => (
                       <Cell
@@ -152,7 +155,10 @@ export default function DashboardPage() {
                   </div>
                 ))}
               </div>
-              <button className='self-end bg-[#1DA996] hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow mt-4'>
+              <button
+                className='self-end bg-[#1DA996] hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow mt-4'
+                onClick={() => handleShowAlert()}
+              >
                 Ajukan
               </button>
             </div>
