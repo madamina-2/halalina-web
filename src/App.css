@@ -1,7 +1,15 @@
 .text-field {
     color: #9EA2AE;
+    font-size: small;
 
 }
+
+.label-text {
+    color: black;
+    font-size: medium;
+}
+
+
 
 .icon {
     color: #12B5A5;
