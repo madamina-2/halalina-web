@@ -142,7 +142,7 @@ const FormRegister = () => {
               Daftar
             </ButtonPrimary>
             <p className='text-center text-sm'>
-              sudah mempunyai akun?
+              Sudah mempunyai akun?
               <Link to='/login' className='text-[#136A5E] underline ml-1'>
                 Masuk
               </Link>
