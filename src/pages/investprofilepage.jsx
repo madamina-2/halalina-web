@@ -127,7 +127,7 @@ export default function InvestProfilePage() {
           </div>
         </div>
         <button
-          className='bg-[#1DA996] hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow mt-10 px-5 w-fit self-end'
+          className='bg-[#1DA996] hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow mt-10 px-5 w-fit self-end mb-5'
           onClick={() => navigate('/dashboard')}
         >
           Mulai Investasi
