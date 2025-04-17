@@ -9,7 +9,7 @@ export const investProfile = [
   },
   {
     id: 2,
-    name: 'Moderate',
+    name: 'Moderat',
     title: 'Berlari Seimbang, Tujuan Sempurna!',
     description:
       'Kamu memahami bahwa perjalanan investasi yang berkelanjutan membutuhkan harmoni antara pertumbuhan dan kehati-hatian. Kamu adalah seorang yang bijak, mencari peluang yang menjanjikan tanpa mengorbankan stabilitas. Profil risiko moderat adalah pilihan yang tepat untukmu, layaknya kuda yang kuat dan lincah, mampu melaju dengan kecepatan yang terkendali, melewati berbagai rintangan pasar dengan keyakinan dan adaptabilitas. Investasi ini menemanimu mencapai tujuan finansialmu dengan langkah yang mantap dan terukur, memberikan potensi pertumbuhan yang menarik tanpa membuatmu kehilangan kendali.',

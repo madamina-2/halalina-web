@@ -10,3 +10,21 @@ export const tnc_data = {
     Perubahan: Syarat dapat berubah sewaktu-waktu dan akan diinformasikan kepada pengguna.
     Dengan melanjutkan pendaftaran, Anda menyatakan setuju dengan ketentuan di atas.`,
 }
+
+export const convertInvestmentData = (rawData) => {
+  const labelMap = {
+    'Deposito Syariah': { name: 'BSI Deposito', color: '#FFA726' },
+    'RDPU Syariah': {
+      name: 'Reksadana Pasar Uang Syariah',
+      color: '#00ACC1',
+    },
+    SBSN: { name: 'SBSN', color: '#26A69A' },
+    'Tabungan Emas': { name: 'Tabungan Emas', color: '#FFEB3B' },
+  }
+
+  return Object.entries(rawData).map(([key, value]) => ({
+    name: labelMap[key]?.name || key,
+    value,
+    color: labelMap[key]?.color || '#CCCCCC',
+  }))
+}
