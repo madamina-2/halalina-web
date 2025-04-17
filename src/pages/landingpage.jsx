@@ -94,7 +94,7 @@ export default function LandingPage() {
             className='bg-[#136A5E] hover:bg-emerald-800 text-white px-6 py-2 rounded-lg shadow w-fit self-end mt-[5rem] mr-[3rem]'
             onClick={() => handleToRegister()}
           >
-            Daftar Sekarang
+            Mulai Sekarang
           </button>
         </div>
       </div>
