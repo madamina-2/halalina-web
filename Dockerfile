@@ -12,6 +12,10 @@ COPY . .
 # Instal dependensi
 RUN npm install
 
+# Pass ENV
+ARG VITE_BASE_URL
+ENV VITE_BASE_URL=$VITE_BASE_URL
+
 # Build aplikasi untuk mode produksi
 RUN npm run build
 
