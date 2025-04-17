@@ -2,12 +2,17 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { BASE_URL } from '../utils/general'
+import { predictUserProfile } from '../services/userService'
+import { useResultStore } from '../store/resultStore'
+import { useUserStore } from '../store/userStore'
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const navigate = useNavigate()
+  const { setResult, clearResult } = useResultStore()
+  const { clearUser } = useUserStore()
 
   const login = async (email, password, showAlert) => {
     try {
@@ -21,7 +26,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('refresh_token', response.data.data.refresh_token)
       setIsAuthenticated(true)
 
-      showAlert(`${response.data.message}`, 'OK', () => navigate('/dashboard'))
+      showAlert(`${response.data.message}`, 'OK', handleGetProfile)
 
       return { success: true }
     } catch (error) {
@@ -59,7 +64,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', response.data.data.access_token)
       localStorage.setItem('refresh_token', response.data.data.refresh_token)
 
-      showAlert(`${response?.data?.message}.`, 'OK', () => navigate('/profiling'))
+      showAlert(`${response?.data?.message}.`, 'OK', () =>
+        navigate('/profiling')
+      )
 
       return { success: true }
     } catch (error) {
@@ -77,8 +84,18 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = async () => {
+    clearResult()
+    clearUser()
     localStorage.clear()
     navigate('/login')
+  }
+
+  const handleGetProfile = async () => {
+    const token = localStorage.getItem('token')
+    const predictResponse = await predictUserProfile(token)
+    setResult(predictResponse)
+
+    navigate('/invest-profile')
   }
 
   return (
