@@ -35,3 +35,8 @@ export const productData = [
     image: 'sbsn.png',
   },
 ]
+
+export const success_ajukan = {
+  title: `Alhamdulillah, pengajuan Investasi Syariahmu berhasil!`,
+  image: 'success_ajukan.png',
+}

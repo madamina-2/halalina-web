@@ -76,7 +76,9 @@ const Profiling = () => {
 
       // 1. Create user profile
       const createResponse = await createUserProfile(token, profileData)
-      setUser(createResponse)
+
+      const profile = await fetchUserProfile(token)
+      setUser(profile)
 
       // 2. Predict user profile
       const predictResponse = await predictUserProfile(token)
