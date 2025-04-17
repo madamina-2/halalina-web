@@ -44,4 +44,5 @@ jobs:
             --name halalina-frontend-staging \
             -p 8081:3000 \
             --restart unless-stopped \
+            --env-file ~/halalina-web/.env.staging \
             ${{ secrets.DOCKERHUB_USERNAME }}/halalina-frontend:staging
