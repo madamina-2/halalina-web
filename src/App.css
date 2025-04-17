@@ -1,8 +1,12 @@
-.text-field{
+.text-field {
     color: #9EA2AE;
-    
+
 }
 
-.icon{
+.icon {
     color: #12B5A5;
+}
+
+button:hover {
+    cursor: pointer;
 }

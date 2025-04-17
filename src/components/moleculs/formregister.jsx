@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext'
 import { showAlert } from '../organisms/showalerts'
 import Modal from '../organisms/modal'
 import { tnc_data } from '../../utils/general'
+import { Loader2 } from 'lucide-react'
 
 const FormRegister = () => {
   const [name, setName] = useState('')
@@ -18,6 +19,7 @@ const FormRegister = () => {
   const [error, setError] = useState(null)
   const [open, setOpen] = useState(false)
   const { register } = useAuth()
+  const [loading, setLoading] = useState(false)
 
   const handleRegister = async (e) => {
     e.preventDefault()
@@ -34,6 +36,7 @@ const FormRegister = () => {
       return
     }
 
+    setLoading(true)
     const result = await register(
       {
         full_name: name,
@@ -43,6 +46,7 @@ const FormRegister = () => {
       },
       showAlert
     )
+    setLoading(false)
 
     if (!result.success) {
       setError(result.message)
@@ -133,7 +137,11 @@ const FormRegister = () => {
 
           <div className='flex flex-col gap-4 mt-6'>
             <ButtonPrimary onClick={(e) => handleRegister(e)}>
-              Daftar
+              {loading ? (
+                <Loader2 className='mx-auto h-5 w-5 animate-spin' />
+              ) : (
+                'Daftar'
+              )}
             </ButtonPrimary>
             <p className='text-center text-sm'>
               sudah mempunyai akun?

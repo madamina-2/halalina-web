@@ -14,12 +14,19 @@ function App() {
       <Route path='/' element={<LandingPage />} />
       <Route path='/login' element={<Loginpage />} />
       <Route path='/register' element={<RegisterPage />} />
-      <Route path='/profiling' element={<Profiling />} />
       <Route
         path='/dashboard'
         element={
           <PrivateRoute>
             <DashboardPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='/profiling'
+        element={
+          <PrivateRoute>
+            <Profiling />
           </PrivateRoute>
         }
       />

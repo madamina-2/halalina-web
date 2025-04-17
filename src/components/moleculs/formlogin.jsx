@@ -1,22 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import InputField from '../atoms/inputfield'
 import ButtonPrimary from '../atoms/buttonprimary'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { showAlert } from '../organisms/showalerts'
+import { useNavigate } from 'react-router-dom'
+import { Loader2 } from 'lucide-react'
 
 const FormLogin = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { login } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) navigate('/dashboard')
+  }, [])
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    setLoading(true)
+
     const result = await login(email, password, showAlert)
+    setLoading(false)
 
     if (!result.success) {
+      setLoading(false)
+
       setError(result.message)
       console.error(result.message)
     }
@@ -54,7 +68,13 @@ const FormLogin = () => {
           </div>
 
           <div className='flex flex-col gap-4 mt-6'>
-            <ButtonPrimary onClick={(e) => handleLogin(e)}>Masuk</ButtonPrimary>
+            <ButtonPrimary onClick={(e) => handleLogin(e)}>
+              {loading ? (
+                <Loader2 className='mx-auto h-5 w-5 animate-spin' />
+              ) : (
+                'Masuk'
+              )}
+            </ButtonPrimary>
             <p className='text-center text-sm'>
               Belum punya akun?
               <Link to='/register' className='text-[#136A5E] underline ml-1'>
