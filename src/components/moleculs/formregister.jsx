@@ -108,11 +108,17 @@ const FormRegister = () => {
             />
 
             <InputField
-              type='number'
-              name='phone'
-              placeholder='Nomor Telepon'
+              type="text"
+              name="phone"
+              placeholder="Nomor Telepon"
+              inputMode="numeric"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/\D/g, '');
+                // Batasi maksimal 13 digit
+                const truncatedValue = numericValue.slice(0, 13);
+                setPhone(truncatedValue);
+              }}
             />
           </div>
 
