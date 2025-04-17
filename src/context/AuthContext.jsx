@@ -25,13 +25,14 @@ export const AuthProvider = ({ children }) => {
 
       const token = response.data.data.access_token
       const refreshToken = response.data.data.refresh_token
+      const user_name = response.data.data?.user_name
 
       localStorage.setItem('token', token)
       localStorage.setItem('refresh_token', refreshToken)
       setIsAuthenticated(true)
 
       // 🧠 Proceed to get user profile and prediction logic
-      handleGetProfile(token)
+      handleGetProfile(token, user_name)
 
       return { success: true }
     } catch (error) {
@@ -69,7 +70,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('refresh_token', response.data.data.refresh_token)
 
       showAlert(`${response?.data?.message}.`, 'OK', () =>
-        navigate('/profiling')
+        navigate('/profiling', {
+          state: response?.data?.data?.user_name || 'Nasabah!',
+        })
       )
 
       return { success: true }
@@ -94,7 +97,7 @@ export const AuthProvider = ({ children }) => {
     navigate('/login')
   }
 
-  const handleGetProfile = async (token) => {
+  const handleGetProfile = async (token, user_name) => {
     try {
       // 🔍 Try to get user profile
       const profile = await fetchUserProfile(token)
@@ -108,7 +111,9 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       if (error.response?.data?.message === 'Profil tidak ditemukan') {
         // 🚧 User has no profile → redirect to profiling
-        navigate('/profiling')
+        navigate('/profiling', {
+          state: user_name || 'Nasabah!',
+        })
       } else {
         console.error('Error fetching user profile:', error)
       }

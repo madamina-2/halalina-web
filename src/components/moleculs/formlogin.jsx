@@ -16,11 +16,6 @@ const FormLogin = () => {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) navigate('/dashboard')
-  }, [])
-
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
