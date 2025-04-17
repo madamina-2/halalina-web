@@ -6,17 +6,20 @@ import Modal from '../components/organisms/modal'
 import { showAlert } from '../components/organisms/showalerts'
 import { useAuth } from '../context/AuthContext'
 import { useResultStore } from '../store/resultStore'
+import { useUserStore } from '../store/userStore'
 import { convertInvestmentData } from '../utils/general'
-import { productData } from '../utils/products'
+import { productData, success_ajukan } from '../utils/products'
 export default function DashboardPage() {
   const [hovered, setHovered] = useState(null)
   const [open, setOpen] = useState(false)
+  const [openAjukan, setOpenAjukan] = useState(false)
   const [selectedItem, setSelectedItem] = useState([])
 
   const { logout } = useAuth()
 
   const [data, setData] = useState([])
   const { result } = useResultStore()
+  const { user } = useUserStore()
   // const navigate = useNavigate()
 
   useEffect(() => {
@@ -29,9 +32,7 @@ export default function DashboardPage() {
     setOpen(true)
   }
 
-  const handleShowAlert = () => {
-    showAlert('Selamat!', 'OK', null)
-  }
+  console.log(user)
 
   return (
     <GeneralLayout>
@@ -75,7 +76,10 @@ export default function DashboardPage() {
 
       <div className='px-8 py-8'>
         <h1 className='text-3xl font-bold text-white mb-1'>
-          Halo, <span className='text-yellow-400'>Madam Ina!</span>
+          Halo,{' '}
+          <span className='text-yellow-400'>{`${
+            user.data.user_name ?? 'Nasabah'
+          }! `}</span>
         </h1>
         <p className='text-white text-lg mb-6'>
           Kamu belum ada portofolio pembelian investasi syariah, yuk ajukan
@@ -158,7 +162,7 @@ export default function DashboardPage() {
               </div>
               <button
                 className='self-end bg-[#1DA996] hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow mt-4'
-                onClick={() => handleShowAlert()}
+                onClick={() => setOpenAjukan(true)}
               >
                 Ajukan
               </button>
@@ -173,6 +177,14 @@ export default function DashboardPage() {
         data={selectedItem}
         bgImage={selectedItem.image || null}
         onClose={() => setOpen(false)}
+      />
+      <Modal
+        buttonText='Oke'
+        open={openAjukan}
+        data={success_ajukan}
+        bgImage='success_ajukan.png'
+        buttonCenter={true}
+        onClose={() => setOpenAjukan(false)}
       />
     </GeneralLayout>
   )

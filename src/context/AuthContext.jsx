@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const navigate = useNavigate()
   const { setResult, clearResult } = useResultStore()
-  const { clearUser } = useUserStore()
+  const { setUser, clearUser } = useUserStore()
 
   const login = async (email, password, showAlert) => {
     try {
@@ -98,6 +98,7 @@ export const AuthProvider = ({ children }) => {
     try {
       // 🔍 Try to get user profile
       const profile = await fetchUserProfile(token)
+      setUser(profile)
 
       // 🧠 If successful, get prediction
       const predictResponse = await predictUserProfile(token)
