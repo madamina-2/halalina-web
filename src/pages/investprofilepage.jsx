@@ -29,8 +29,18 @@ export default function InvestProfilePage() {
         <div className='flex flex-col items-end w-full md:flex-row gap-10'>
           {/* Left Box */}
           <div className='flex-1'>
+            {/* Text content - stays on top */}
+            <div className='h-full w-full pt-20 md:pt-24 relative z-10 mb-4'>
+              <h1 className='text-white font-medium text-4xl md:text-3xl leading-tight tracking-normal font-inter'>
+                Ini dia hasil rekomendasi
+              </h1>
+
+              <h1 className='font-extrabold text-4xl md:text-4xl leading-tight tracking-normal font-inter text-[#FFD573] pl-0 md:pl-28'>
+                Investasi Syariah<span className='text-white'>mu!</span>
+              </h1>
+            </div>
             <div className='bg-white rounded-xl p-6 shadow'>
-              <div className='flex items-start justify-between mb-4'>
+              <div className='flex items-start justify-between mb-4 gap-2'>
                 <div className='flex items-center gap-4'>
                   {/* <span className='text-4xl'>🐎</span> */}
                   <img
@@ -50,7 +60,7 @@ export default function InvestProfilePage() {
                   </span>
                   <span
                     className={`font-semibold px-8 py-2 rounded-full text-md ${
-                      userResult.name === 'Moderate'
+                      userResult.name === 'Moderat'
                         ? 'bg-emerald-100 text-emerald-700'
                         : userResult.name === 'Agresif'
                         ? 'text-[#A72814] bg-[#FFF1EF]'
@@ -74,7 +84,7 @@ export default function InvestProfilePage() {
                 <h3 className='text-lg font-semibold mb-4'>
                   Portofolio Rekomendasi
                 </h3>
-                <div className='w-full h-64'>
+                <div className='w-full h-64 m-5'>
                   <ResponsiveContainer>
                     <PieChart>
                       <Pie

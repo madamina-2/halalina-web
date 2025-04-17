@@ -21,6 +21,6 @@ export const investProfile = [
     title: 'Seaman Kura-kura, Hati-hati Selalu!',
     description:
       'Kamu adalah sosok yang mengutamakan keamanan dan ketenangan pikiran dalam berinvestasi. Bagimu, menjaga aset yang telah terkumpul adalah fondasi utama untuk mencapai kemerdekaan finansial jangka panjang. Profil risiko defensif adalah tamengmu, memberikan perlindungan maksimal terhadap gejolak pasar. Seperti kura-kura yang sabar dan tekun, kamu memilih pertumbuhan yang stabil dan terhindar dari risiko yang tidak perlu. Investasi ini adalah pilihan cerdas untukmu yang menghargai keamanan dan memilih untuk melangkah dengan pasti menuju masa depan finansial yang terjamin.',
-    img: '/noto_horse.png',
+    img: '/noto_turtle.png',
   },
 ]
