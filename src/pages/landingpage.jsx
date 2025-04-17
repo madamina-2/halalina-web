@@ -63,7 +63,7 @@ export default function LandingPage() {
             >
               <ChevronLeft size={32} />
             </button>
-            <div className='flex gap-4'>
+            <div className='flex max-sm:flex-col  gap-4'>
               {[0, 1].map((offset) => {
                 const index = (activeIndex + offset) % productData.length
                 const card = productData[index]
@@ -80,7 +80,7 @@ export default function LandingPage() {
                   </div>
                 )
               })}
-            </div>
+              </div>
             <button
               onClick={handleNext}
               className='text-white hover:text-yellow-300'
