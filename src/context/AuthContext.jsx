@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { BASE_URL } from '../utils/general'
-import { predictUserProfile } from '../services/userService'
+import { fetchUserProfile, predictUserProfile } from '../services/userService'
 import { useResultStore } from '../store/resultStore'
 import { useUserStore } from '../store/userStore'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const AuthContext = createContext()
 
@@ -22,15 +23,18 @@ export const AuthProvider = ({ children }) => {
         { headers: { 'Content-Type': 'application/json' } }
       )
 
-      localStorage.setItem('token', response.data.data.access_token)
-      localStorage.setItem('refresh_token', response.data.data.refresh_token)
+      const token = response.data.data.access_token
+      const refreshToken = response.data.data.refresh_token
+
+      localStorage.setItem('token', token)
+      localStorage.setItem('refresh_token', refreshToken)
       setIsAuthenticated(true)
 
-      showAlert(`${response.data.message}`, 'OK', handleGetProfile)
+      // 🧠 Proceed to get user profile and prediction logic
+      handleGetProfile(token)
 
       return { success: true }
     } catch (error) {
-      // ⛔ Check for 401 Unauthorized
       if (error.response?.status === 401) {
         showAlert('Unauthorized. Please login again.', 'OK', logout)
         return { success: false, message: 'Unauthorized' }
@@ -90,12 +94,24 @@ export const AuthProvider = ({ children }) => {
     navigate('/login')
   }
 
-  const handleGetProfile = async () => {
-    const token = localStorage.getItem('token')
-    const predictResponse = await predictUserProfile(token)
-    setResult(predictResponse)
+  const handleGetProfile = async (token) => {
+    try {
+      // 🔍 Try to get user profile
+      const profile = await fetchUserProfile(token)
 
-    navigate('/invest-profile')
+      // 🧠 If successful, get prediction
+      const predictResponse = await predictUserProfile(token)
+      setResult(predictResponse)
+
+      navigate('/invest-profile')
+    } catch (error) {
+      if (error.response?.data?.message === 'Profil tidak ditemukan') {
+        // 🚧 User has no profile → redirect to profiling
+        navigate('/profiling')
+      } else {
+        console.error('Error fetching user profile:', error)
+      }
+    }
   }
 
   return (

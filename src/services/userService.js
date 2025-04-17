@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { BASE_URL } from '../utils/general'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const fetchJobType = async (token) => {
   const response = await axios.get(`${BASE_URL}/user_profile/job_type`, {
@@ -22,6 +23,15 @@ export const createUserProfile = async (token, profileData) => {
     }
   )
 
+  return response.data
+}
+
+export const fetchUserProfile = async (token) => {
+  const response = await axios.get(`${BASE_URL}/user_profile/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
   return response.data
 }
 
