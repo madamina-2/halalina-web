@@ -30,7 +30,7 @@ export default function InvestProfilePage() {
           {/* Left Box */}
           <div className='flex-1'>
             <div className='bg-white rounded-xl p-6 shadow'>
-              <div className='flex items-start justify-between mb-4'>
+              <div className='flex items-start justify-between mb-4 gap-2'>
                 <div className='flex items-center gap-4'>
                   {/* <span className='text-4xl'>🐎</span> */}
                   <img
@@ -50,7 +50,7 @@ export default function InvestProfilePage() {
                   </span>
                   <span
                     className={`font-semibold px-8 py-2 rounded-full text-md ${
-                      userResult.name === 'Moderate'
+                      userResult.name === 'Moderat'
                         ? 'bg-emerald-100 text-emerald-700'
                         : userResult.name === 'Agresif'
                         ? 'text-[#A72814] bg-[#FFF1EF]'
@@ -74,7 +74,7 @@ export default function InvestProfilePage() {
                 <h3 className='text-lg font-semibold mb-4'>
                   Portofolio Rekomendasi
                 </h3>
-                <div className='w-full h-64'>
+                <div className='w-full h-64 m-5'>
                   <ResponsiveContainer>
                     <PieChart>
                       <Pie

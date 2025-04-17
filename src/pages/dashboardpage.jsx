@@ -116,8 +116,8 @@ export default function DashboardPage() {
             <h3 className='text-lg font-semibold mb-2'>
               Portofolio Rekomendasi
             </h3>
-            <div className='w-full h-48'>
-              <ResponsiveContainer width='100%' height='100%'>
+            <div className='w-full h-64 m-5'>
+              <ResponsiveContainer>
                 <PieChart>
                   <Pie
                     data={data}

@@ -13,6 +13,7 @@ import { useUserStore } from '../../store/userStore'
 import { useResultStore } from '../../store/resultStore'
 import { showAlert } from '../../components/organisms/showalerts'
 import { useNavigate } from 'react-router-dom'
+import { formatRupiahInput, handleChangeOnlyDigit } from '../../utils/general'
 
 const Profiling = () => {
   const [age, setAge] = React.useState('')
@@ -43,20 +44,6 @@ const Profiling = () => {
     init()
   }, [])
 
-  const formatRupiah = (value) => {
-    if (!value) return ''
-    return value
-      .replace(/\D/g, '')
-      .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-      .replace(/(\..*)\./g, '$1')
-  }
-
-  const handleBalanceChange = (e) => {
-    const formattedValue = formatRupiah(e.target.value)
-    setBalance(formattedValue)
-    setAmount(e.target.value)
-  }
-
   const handleAgeChange = (e) => {
     const value = e.target.value
     if (/^\d{0,2}$/.test(value)) {
@@ -83,7 +70,7 @@ const Profiling = () => {
         job_type_id: Number(job),
         married: marital,
         debt_type: loan,
-        account_balance: Number(amount),
+        account_balance: Number(balance),
         age_group: ageGroup,
       }
 
@@ -164,8 +151,10 @@ const Profiling = () => {
                   type='text'
                   name='balance'
                   placeholder='Jumlah Saldo Tabungan'
-                  value={balance}
-                  onChange={handleBalanceChange}
+                  value={formatRupiahInput(balance)}
+                  onChange={(e) =>
+                    setBalance(handleChangeOnlyDigit(e.target.value))
+                  }
                   className='text-field '
                 />
               </div>

@@ -1,5 +1,3 @@
-export const BASE_URL = 'http://192.168.23.169:5002'
-
 export const tnc_data = {
   title: 'Syarat dan Kondisi',
   content: `Dengan mendaftar, Anda menyetujui hal-hal berikut:
@@ -27,4 +25,20 @@ export const convertInvestmentData = (rawData) => {
     value,
     color: labelMap[key]?.color || '#CCCCCC',
   }))
+}
+
+export const formatRupiahInput = (value) => {
+  if (!value) return ''
+
+  // Remove non-digit characters
+  const numeric = value.replace(/\D/g, '')
+
+  // Format with dots every 3 digits from the end
+  return numeric.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
+export const handleChangeOnlyDigit = (value) => {
+  // Only keep digits
+  const raw = value.replace(/\D/g, '')
+  return raw
 }
