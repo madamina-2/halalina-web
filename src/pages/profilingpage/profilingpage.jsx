@@ -1,6 +1,5 @@
 import { Home, Wallet } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ButtonPrimary from '../../components/atoms/buttonprimary'
 import InputField from '../../components/atoms/inputfield'
 import GeneralLayout from '../../components/layouts/generallayout'
@@ -12,7 +11,6 @@ import {
 } from '../../services/userService'
 import { useUserStore } from '../../store/userStore'
 import { useResultStore } from '../../store/resultStore'
-import { showAlert } from '../../components/organisms/showalerts'
 import { useNavigate } from 'react-router-dom'
 import { formatRupiahInput, handleChangeOnlyDigit } from '../../utils/general'
 
