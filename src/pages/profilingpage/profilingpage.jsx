@@ -14,6 +14,7 @@ import { useUserStore } from '../../store/userStore'
 import { useResultStore } from '../../store/resultStore'
 import { useNavigate } from 'react-router-dom'
 import { formatRupiahInput, handleChangeOnlyDigit } from '../../utils/general'
+import { Loader2 } from 'lucide-react'
 
 const Profiling = () => {
   const [age, setAge] = React.useState('')
@@ -27,6 +28,8 @@ const Profiling = () => {
   const { setResult } = useResultStore()
   const [amount, setAmount] = useState(0)
   const navigate = useNavigate()
+
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -64,6 +67,7 @@ const Profiling = () => {
 
   const handleGetPredict = async (e) => {
     e.preventDefault()
+    setLoading(true)
     const token = localStorage.getItem('token')
     try {
       const profileData = {
@@ -87,10 +91,13 @@ const Profiling = () => {
 
       // Optional: set prediction to state or navigate
       // setPrediction(predictResponse)
+      setLoading(false)
       navigate('/invest-profile')
     } catch (error) {
+      setLoading(false)
       console.error('Error:', error)
     } finally {
+      setLoading(false)
     }
   }
 
@@ -230,7 +237,11 @@ const Profiling = () => {
           {/* Button */}
           <div className='mt-3'>
             <ButtonPrimary onClick={(e) => handleGetPredict(e)}>
-              Temukan Rekomendasi Investasi Saya!
+              {loading ? (
+                <Loader2 className='mx-auto h-5 w-5 animate-spin' />
+              ) : (
+                'Temukan Rekomendasi Investasi Saya!'
+              )}
             </ButtonPrimary>
           </div>
         </div>
