@@ -180,7 +180,7 @@ const Profiling = () => {
 
               <div className='text-start'>
                 <label className='block text-[10px] font-medium text-gray-700 mb-1 mt-1'>
-                  Apakah kamu mempunya pinjaman?
+                  Apakah kamu mempunyai pinjaman?
                 </label>
                 <p className='text-[8px] text-gray-500 mb-1'>
                   Abaikan jika tidak punya pinjaman
