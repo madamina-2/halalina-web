@@ -7,6 +7,7 @@ import { showAlert } from '../../components/organisms/showalerts'
 import {
   createUserProfile,
   fetchJobType,
+  fetchUserProfile,
   predictUserProfile,
 } from '../../services/userService'
 import { useUserStore } from '../../store/userStore'
