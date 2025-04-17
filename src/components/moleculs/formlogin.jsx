@@ -58,7 +58,7 @@ const FormLogin = () => {
             <p className='text-center text-sm'>
               Belum punya akun?
               <Link to='/register' className='text-[#136A5E] underline ml-1'>
-                Daftar Disini
+                Daftar di Sini
               </Link>
             </p>
           </div>
