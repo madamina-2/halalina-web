@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
-import GeneralLayout from '../../components/layouts/generallayout'
-import InputField from '../../components/atoms/inputfield'
-import { useState } from 'react'
-import ButtonPrimary from '../../components/atoms/buttonprimary'
 import { Home, Wallet } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import ButtonPrimary from '../../components/atoms/buttonprimary'
+import InputField from '../../components/atoms/inputfield'
+import GeneralLayout from '../../components/layouts/generallayout'
+import { showAlert } from '../../components/organisms/showalerts'
 import {
   createUserProfile,
   fetchJobType,
@@ -73,6 +74,7 @@ const Profiling = () => {
         account_balance: Number(balance),
         age_group: ageGroup,
       }
+      // console.log(profileData)
 
       // 1. Create user profile
       const createResponse = await createUserProfile(token, profileData)
@@ -94,7 +96,7 @@ const Profiling = () => {
   return (
     <GeneralLayout>
       <div className='fixed inset-0 flex items-center justify-center min-h-screen px-4'>
-        <div className='bg-white p-4 sm:p-6 rounded-xl shadow-lg  w-[50%] max-w-4xl z-10 flex flex-col gap-4'>
+        <div className='bg-white p-4 sm:p-6 rounded-xl shadow-lg  w-[50%] w-full md:max-w-4xl z-10 flex flex-col gap-4'>
           {/* Logo + Heading */}
           <div className='flex flex-col items-center gap-2'>
             <img src='halalina.svg' alt='' className='h-[60px]' />

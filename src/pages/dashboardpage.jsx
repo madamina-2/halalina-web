@@ -1,13 +1,13 @@
 // src/pages/DashboardPage.jsx
 import { useEffect, useState } from 'react'
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
+import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import GeneralLayout from '../components/layouts/generallayout'
 import Modal from '../components/organisms/modal'
+import { showAlert } from '../components/organisms/showalerts'
 import { useAuth } from '../context/AuthContext'
 import { useResultStore } from '../store/resultStore'
 import { convertInvestmentData } from '../utils/general'
 import { productData } from '../utils/products'
-import { showAlert } from '../components/organisms/showalerts'
 export default function DashboardPage() {
   const [hovered, setHovered] = useState(null)
   const [open, setOpen] = useState(false)
@@ -85,23 +85,24 @@ export default function DashboardPage() {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
           {/* Left Recommendations */}
           <div>
-            <div className='max-h-[65vh] overflow-y-auto space-y-4'>
+            <div className='space-y-4'>
               {productData.map((item, i) => (
-                <div
-                  key={i}
-                  className='rounded-lg shadow flex items-start gap-4'
-                >
-                  <div className='w-20 h-20 bg-gray-200 rounded-lg'>
-                    <img src={item.image} alt='Logo' className='w-20 h-20' />
+                <div className='flex' key={i}>
+                  <div className='flex-shrink-0'>
+                    <img
+                      src={item.image}
+                      className='h-full w-auto rounded-s-xl'
+                      alt=''
+                    />
                   </div>
-                  <div className='bg-white p-4 rounded-lg'>
+                  <div className='bg-white rounded-e-xl p-4 flex flex-col'>
                     <h3 className='font-bold text-md mb-1'>{item.title}</h3>
                     <p className='text-sm text-gray-700 mb-1 line-clamp-2'>
                       {item.caption}
                     </p>
                     <a
                       onClick={() => handleSelectedCard(item)}
-                      className='text-emerald-600 text-sm font-semibold underline'
+                      className='text-emerald-600 text-sm font-semibold underline mt-auto'
                     >
                       Baca Selengkapnya
                     </a>
@@ -116,8 +117,8 @@ export default function DashboardPage() {
             <h3 className='text-lg font-semibold mb-2'>
               Portofolio Rekomendasi
             </h3>
-            <div className='w-full h-64 m-5'>
-              <ResponsiveContainer>
+            <div className='w-full h-70'>
+              <ResponsiveContainer width='100%' height='100%'>
                 <PieChart>
                   <Pie
                     data={data}
@@ -129,7 +130,7 @@ export default function DashboardPage() {
                     innerRadius={70}
                     // onMouseEnter={(_, index) => setHovered(index)}
                     // onMouseLeave={() => setHovered(null)}
-                    label={({ name, value }) => `${value}%`} // 👈 ini kuncinya
+                    label={({ name, value }) => `${value}%`}
                   >
                     {data.map((entry, index) => (
                       <Cell
@@ -170,7 +171,7 @@ export default function DashboardPage() {
         buttonText='Oke'
         open={open}
         data={selectedItem}
-        bgImage={selectedItem?.image || null}
+        bgImage={selectedItem.image || null}
         onClose={() => setOpen(false)}
       />
     </GeneralLayout>
