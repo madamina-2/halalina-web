@@ -9,11 +9,14 @@ import { useResultStore } from '../store/resultStore'
 import { useUserStore } from '../store/userStore'
 import { convertInvestmentData } from '../utils/general'
 import { productData, success_ajukan } from '../utils/products'
+import { Menu, X } from 'lucide-react'
+
 export default function DashboardPage() {
   const [hovered, setHovered] = useState(null)
   const [open, setOpen] = useState(false)
   const [openAjukan, setOpenAjukan] = useState(false)
   const [selectedItem, setSelectedItem] = useState([])
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const { logout } = useAuth()
 
@@ -32,7 +35,13 @@ export default function DashboardPage() {
     setOpen(true)
   }
 
-  console.log(user)
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <GeneralLayout>
@@ -42,16 +51,18 @@ export default function DashboardPage() {
           <img src='/halalina_nocaption.svg' alt='Logo' className='w-10' />
           <span className='text-[#12B5A5] text-xl font-bold'>HALALINA</span>
         </div>
-        <div className='flex items-center gap-6 text-sm font-medium'>
+        
+        {/* Desktop Navigation */}
+        <div className='hidden md:flex items-center gap-6 text-sm font-medium'>
           <a
             href='/dashboard'
-            className='text-gray-600 hover:font-bold hover:cursor-pointer text-[#12B5A5]-800'
+            className='text-gray-600 hover:font-bold hover:cursor-pointer'
           >
             Beranda
           </a>
           <a
             onClick={() => logout()}
-            className='text-gray-600 hover:font-bold hover:cursor-pointer text-[#12B5A5]-800'
+            className='text-gray-600 hover:font-bold hover:cursor-pointer'
           >
             Keluar
           </a>
@@ -72,7 +83,96 @@ export default function DashboardPage() {
             </svg>
           </div>
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <div 
+          onClick={toggleMobileMenu} 
+          className='md:hidden cursor-pointer'
+          aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </div>
       </nav>
+
+      {/* Mobile Sidebar Menu */}
+      <div 
+        className={`
+          fixed top-0 left-0 w-[70%] h-full bg-white shadow-lg 
+          transform transition-transform duration-300 ease-in-out z-30
+          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}
+      >
+        <div className='p-6'>
+          {/* Mobile Menu Header */}
+          <div className='flex items-center justify-between mb-8'>
+            <div className='flex items-center gap-3'>
+              <img src='/halalina_nocaption.svg' alt='Logo' className='w-10' />
+              <span className='text-[#12B5A5] text-xl font-bold'>HALALINA</span>
+            </div>
+            <button 
+              onClick={closeMobileMenu} 
+              className='text-gray-600 hover:text-[#12B5A5]'
+              aria-label='Close Menu'
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          {/* Mobile Menu Navigation Links */}
+          <nav className='space-y-4'>
+            <a
+              href='/dashboard'
+              onClick={closeMobileMenu}
+              className='block text-gray-700 hover:bg-emerald-50 p-3 rounded-lg'
+            >
+              Beranda
+            </a>
+            <a
+              onClick={() => {
+                logout();
+                closeMobileMenu();
+              }}
+              className='block text-gray-700 hover:bg-emerald-50 p-3 rounded-lg cursor-pointer'
+            >
+              Keluar
+            </a>
+          </nav>
+
+          {/* Mobile User Profile */}
+          <div className='mt-8 flex items-center gap-4 bg-emerald-50 p-4 rounded-lg'>
+            <div className='w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6 text-emerald-700'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.25a8.25 8.25 0 0115 0'
+                />
+              </svg>
+            </div>
+            <div>
+              <p className='text-sm font-medium text-gray-700'>
+                {user.data.user_name ?? 'Nasabah'}
+              </p>
+              <p className='text-xs text-gray-500'>Pengguna</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Overlay when mobile menu is open */}
+      {isMobileMenuOpen && (
+        <div 
+          className='fixed inset-0 bg-black opacity-50 z-20'
+          onClick={closeMobileMenu}
+        />
+      )}
 
       <div className='px-8 py-8'>
         <h1 className='text-3xl font-bold text-white mb-1'>
