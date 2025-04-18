@@ -15,6 +15,8 @@ import { useResultStore } from '../../store/resultStore'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { formatRupiahInput, handleChangeOnlyDigit } from '../../utils/general'
 import { Loader2 } from 'lucide-react'
+import { Menu, X } from 'lucide-react' 
+import { useUsernameStore } from '../../store/usernameStore'
 
 const Profiling = () => {
   const [age, setAge] = React.useState('')
@@ -28,13 +30,18 @@ const Profiling = () => {
   const { setResult } = useResultStore()
   const [amount, setAmount] = useState(0)
   const navigate = useNavigate()
-  const location = useLocation()
-  const username = location.state || {}
+  /* const location = useLocation() */
+  /* const username = location.state || {} */
+  const { username } = useUsernameStore()
+  /* console.log(username) */
+  /* const { logout } = useAuth() */
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { user } = useUserStore()
+  
 
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    console.log('username', username)
     const token = localStorage.getItem('token')
     if (!token) return
     const init = async () => {
@@ -49,6 +56,10 @@ const Profiling = () => {
     }
     init()
   }, [])
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   const handleAgeChange = (e) => {
     const value = e.target.value
@@ -68,6 +79,10 @@ const Profiling = () => {
     }
   }
 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   const handleGetPredict = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -84,7 +99,7 @@ const Profiling = () => {
 
       // 1. Create user profile
       const createResponse = await createUserProfile(token, profileData)
-
+      
       const profile = await fetchUserProfile(token)
       setUser(profile)
 
@@ -106,15 +121,136 @@ const Profiling = () => {
 
   return (
     <GeneralLayout>
+      {/* Navbar */}
+      <nav className='sticky top-0 bg-white shadow-md px-8 py-4 flex items-center justify-between z-20'>
+        <div className='flex items-center gap-3'>
+          <img src='/halalina_nocaption.svg' alt='Logo' className='w-10' />
+          <span className='text-[#12B5A5] text-xl font-bold'>HALALINA</span>
+        </div>
+        
+        {/* Desktop Navigation */}
+        <div className='hidden md:flex items-center gap-6 text-sm font-medium'>
+          <a
+            href='/dashboard'
+            className='text-gray-600 hover:font-bold hover:cursor-pointer'
+          >
+            Beranda
+          </a>
+          <a
+            onClick={() => logout()}
+            className='text-gray-600 hover:font-bold hover:cursor-pointer'
+          >
+            Keluar
+          </a>
+          <div className='w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth='1.5'
+              stroke='currentColor'
+              className='w-5 h-5 text-emerald-700'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.25a8.25 8.25 0 0115 0'
+              />
+            </svg>
+          </div>
+        </div>
+          <div 
+           onClick={toggleMobileMenu} 
+           className='md:hidden cursor-pointer'
+           aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+         >
+           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+         </div>       
+        </nav>
+        <div 
+        className={`
+          fixed top-0 left-0 w-[70%] h-full bg-white shadow-lg 
+          transform transition-transform duration-300 ease-in-out z-30
+          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}
+      >
+<div className='p-6'>
+          {/* Mobile Menu Header */}
+          <div className='flex items-center justify-between mb-8'>
+            <div className='flex items-center gap-3'>
+              <img src='/halalina_nocaption.svg' alt='Logo' className='w-10' />
+              <span className='text-[#12B5A5] text-xl font-bold'>HALALINA</span>
+            </div>
+            <button 
+              onClick={closeMobileMenu} 
+              className='text-gray-600 hover:text-[#12B5A5]'
+              aria-label='Close Menu'
+            >
+              <X size={24} />
+            </button>
+          </div>
+          <nav className='space-y-4'>
+            <a
+              href='/dashboard'
+              onClick={closeMobileMenu}
+              className='block text-gray-700 hover:bg-emerald-50 p-3 rounded-lg'
+            >
+              Beranda
+            </a>
+            <a
+              onClick={() => {
+                logout();
+                closeMobileMenu();
+              }}
+              className='block text-gray-700 hover:bg-emerald-50 p-3 rounded-lg cursor-pointer'
+            >
+              Keluar
+            </a>
+          </nav>
+          <div className='mt-8 flex items-center gap-4 bg-emerald-50 p-4 rounded-lg'>
+            <div className='w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6 text-emerald-700'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.25a8.25 8.25 0 0115 0'
+                />
+              </svg>
+            </div>
+            <div>
+              <p className='text-sm font-medium text-gray-700'>
+                {/* {user.data.user_name ?? 'Nasabah'} */} user
+              </p>
+              <p className='text-xs text-gray-500'>Pengguna</p>
+            </div>
+          </div>
+  </div>
+
+      </div>
+
+      {isMobileMenuOpen && (
+        <div 
+          className='fixed inset-0 bg-black opacity-50 z-20'
+          onClick={closeMobileMenu}
+        />
+      )}
+      
       <div className='fixed inset-0 flex items-center justify-center min-h-screen px-4'>
-        <div className='bg-white p-4 sm:p-6 rounded-xl shadow-lg  w-[50%] w-full md:max-w-4xl z-10 flex flex-col gap-4'>
+      <div className='bg-white p-4 sm:p-6 rounded-xl shadow-lg  w-[50%] max-w-4xl z-10 flex flex-col gap-4'>
           {/* Logo + Heading */}
           <div className='flex flex-col items-center gap-2'>
-            <img src='halalina.svg' alt='' className='h-[60px]' />
+            <img src='halalina.svg' alt='' className='h-[80px]' />
             <div className='text-center'>
-              <h1 className='font-semibold text-xl sm:text-2xl'>
-                Bantu kami kenal kamu lebih dekat yuk!
-              </h1>
+            <h1 className='font-semibold text-xl sm:text-2xl'>
+            Hai,! Bantu kami kenal kamu lebih dekat yuk!
+            </h1>
               <p className='text-[#434343] text-[10px] mt-1'>
                 Yuk, isi profilmu untuk dapat rekomendasi investasi syariah yang
                 sesuai!
@@ -127,11 +263,11 @@ const Profiling = () => {
             {/* Left Side */}
             <div className='w-full lg:w-1/2 flex flex-col gap-3'>
               <div>
-                <label className='block text-[10px] font-medium text-gray-700 mb-1'>
-                  Apa tipe pekerjaan mu?
+                <label className='block label-text text-gray-700 mb-1'>
+                  Apa tipe pekerjaan mu? <span className='text-red-500'>*</span>
                 </label>
                 <select
-                  className='border text-field border-gray-300 rounded-md px-2 py-1 w-full text-sm'
+                  className='border text-field border-gray-300 rounded-md px-2 py-1 w-full'
                   onChange={(e) => setJob(e.target.value)}
                 >
                   <option value={null}>Pilih Tipe Pekerjaan</option>
@@ -143,8 +279,8 @@ const Profiling = () => {
               </div>
 
               <div>
-                <label className='block text-[10px] font-medium mb-1 mt-1'>
-                  Berapa umur kamu?
+                <label className='block label-text mb-1 mt-1'>
+                  Berapa umur kamu? <span className='text-red-500'>*</span>
                 </label>
                 <InputField
                   type='text'
@@ -157,8 +293,8 @@ const Profiling = () => {
               </div>
 
               <div>
-                <label className='block text-[10px] font-medium text-gray-700 mb-1 mt-1'>
-                  Berapa jumlah saldo di tabungan kamu?
+                <label className='block label-text text-gray-700 mb-1 mt-1'>
+                  Berapa jumlah saldo di tabungan kamu? <span className='text-red-500'>*</span>
                 </label>
                 <InputField
                   type='text'
@@ -176,35 +312,45 @@ const Profiling = () => {
             {/* Right Side */}
             <div className='w-full lg:w-1/2 flex flex-col  gap-3'>
               <div>
-                <label className='block text-[10px] font-medium text-gray-700 mb-1'>
-                  Apa kamu sudah menikah?
+               <label className='block label-text text-gray-700 mb-1'>
+                  Apa kamu sudah menikah? <span className='text-red-500'>*</span>
                 </label>
                 <select
                   className='text-field border border-gray-300 rounded-md px-2 py-1 w-full text-sm'
                   onChange={(e) => setMarital(e.target.value)}
                 >
-                  <option value={null}>Status</option>
-                  <option value='single'>Single</option>
-                  <option value='married'>Married</option>
+                  <option className="text-field" value={null}>Status</option>
+                  <option className="text-field" value='single'>Belum Menikah</option>
+                  <option className="text-field" value='married'>Menikah</option>
                 </select>
               </div>
 
               <div className='text-start'>
-                <label className='block text-[10px] font-medium text-gray-700 mb-1 mt-1'>
-                  Apakah kamu mempunyai pinjaman?
+                <label className='block label-text text-gray-700 mb-1 mt-1'>
+                  Apakah kamu mempunya pinjaman?
                 </label>
-                <p className='text-[8px] text-gray-500 mb-1'>
+                <p className='text-[10px] text-gray-500 mb-1'>
                   Abaikan jika tidak punya pinjaman
                 </p>
                 <ul className='space-y-2'>
-                  <li className='flex justify-between items-center'>
+                      <li 
+                          className='flex justify-between items-center' 
+                          onClick={()=>{
+                            if (!loan.includes('Housing')) {
+                              setLoan([...loan, 'Housing']) // tambahkan
+                            } else {
+                              setLoan(loan.filter((item) => item !== 'Housing')) // hapus jika uncheck
+                            }
+                          }}
+                        >
                     <div className='flex gap-2 items-center'>
-                      <Home size={16} />
+                      <Home size={16} className='icon' />
                       <span className='text-sm'>KPR</span>
                     </div>
                     <input
                       type='checkbox'
                       className='border-[1.5px] border-[#12B5A5]'
+                      checked={loan.includes('Housing')}
                       onChange={(e) => {
                         if (e.target.checked) {
                           setLoan([...loan, 'Housing']) // tambahkan
@@ -215,14 +361,24 @@ const Profiling = () => {
                     />
                   </li>
 
-                  <li className='flex justify-between items-center'>
+                      <li 
+                          className='flex justify-between items-center' 
+                          onClick={()=>{
+                            if (!loan.includes('Loan')) {
+                              setLoan([...loan, 'Loan']) // tambahkan
+                            } else {
+                              setLoan(loan.filter((item) => item !== 'Loan')) // hapus jika uncheck
+                            }
+                          }}
+                        >
                     <div className='flex gap-2 items-center'>
-                      <Wallet size={16} />
+                      <Wallet size={16} className='icon' />
                       <span className='text-sm'>Pinjaman</span>
                     </div>
                     <input
                       type='checkbox'
                       className='border-[1.5px] border-[#12B5A5]'
+                      checked={loan.includes('Loan')}
                       onChange={(e) => {
                         if (e.target.checked) {
                           setLoan([...loan, 'Loan'])
@@ -233,6 +389,7 @@ const Profiling = () => {
                     />
                   </li>
                 </ul>
+                <div><p className='text-[10px] text-gray-500'><span className='text-red-500'>*</span>Wajib diisi</p></div>
               </div>
             </div>
           </div>

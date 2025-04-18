@@ -4,10 +4,12 @@ import axios from 'axios'
 import { fetchUserProfile, predictUserProfile } from '../services/userService'
 import { useResultStore } from '../store/resultStore'
 import { useUserStore } from '../store/userStore'
+import { useUsernameStore } from '../store/usernameStore'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const AuthContext = createContext()
+const { setUsername } = useUsernameStore()
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -111,9 +113,11 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       if (error.response?.data?.message === 'Profil tidak ditemukan') {
         // 🚧 User has no profile → redirect to profiling
-        navigate('/profiling', {
+        /* navigate('/profiling', {
           state: user_name || 'Nasabah!',
-        })
+        }) */
+        setUsername(user_name)
+       navigate('/profiling')
       } else {
         console.error('Error fetching user profile:', error)
       }
