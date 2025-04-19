@@ -19,7 +19,9 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/halalina-frontend:prod .
+          docker build \
+            --build-arg VITE_BASE_URL=${{ secrets.VITE_BASE_URL_PROD }} \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/halalina-frontend:prod .
 
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/halalina-frontend:prod
@@ -44,4 +46,5 @@ jobs:
             --name halalina-frontend-prod \
             -p 80:3000 \
             --restart unless-stopped \
+            --env-file ~/halalina-web/.env.prod \
             ${{ secrets.DOCKERHUB_USERNAME }}/halalina-frontend:prod
