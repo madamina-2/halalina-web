@@ -4,17 +4,19 @@
 
 }
 
+.icon {
+    color: #12B5A5;
+}
+
 .label-text {
     color: black;
     font-size: medium;
 }
 
-
-
-.icon {
-    color: #12B5A5;
+button:hover {
+    cursor: pointer;
 }
 
-button:hover {
+a:hover{
     cursor: pointer;
 }
