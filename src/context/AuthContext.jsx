@@ -14,6 +14,15 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate()
   const { setResult, clearResult } = useResultStore()
   const { setUser, clearUser } = useUserStore()
+  const [userName, setUserName] = useState(null)
+
+  // On component mount, check if userName exists in localStorage
+  useEffect(() => {
+    const savedUserName = localStorage.getItem('user_name')
+    if (savedUserName) {
+      setUserName(savedUserName) // Set the userName from localStorage if available
+    }
+  }, [])
 
   const login = async (email, password, showAlert) => {
     try {
@@ -29,7 +38,9 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem('token', token)
       localStorage.setItem('refresh_token', refreshToken)
+      localStorage.setItem('user_name', user_name)
       setIsAuthenticated(true)
+      setUserName(user_name)
 
       // 🧠 Proceed to get user profile and prediction logic
       handleGetProfile(token, user_name)
@@ -68,6 +79,9 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem('token', response.data.data.access_token)
       localStorage.setItem('refresh_token', response.data.data.refresh_token)
+      localStorage.setItem('user_name', response?.data?.data?.user_name)
+
+      setUserName(response?.data?.data?.user_name)
 
       showAlert(`${response?.data?.message}.`, 'OK', () =>
         navigate('/profiling', {
@@ -93,6 +107,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     clearResult()
     clearUser()
+    setUserName(null) 
     localStorage.clear()
     navigate('/login')
   }
@@ -121,7 +136,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, register }}>
+    <AuthContext.Provider value={{ isAuthenticated, userName,login, logout, register }}>
       {children}
     </AuthContext.Provider>
   )
