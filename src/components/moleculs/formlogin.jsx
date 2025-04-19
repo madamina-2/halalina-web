@@ -16,6 +16,7 @@ const FormLogin = () => {
   const { login } = useAuth()
   const navigate = useNavigate()
 
+
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -73,7 +74,7 @@ const FormLogin = () => {
             <p className='text-center text-sm'>
               Belum punya akun?
               <Link to='/register' className='text-[#136A5E] underline ml-1'>
-                Daftar di Sini
+                Daftar Sekarang
               </Link>
             </p>
           </div>

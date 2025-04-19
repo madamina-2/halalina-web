@@ -1,20 +1,20 @@
-import { Home, Wallet } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import ButtonPrimary from '../../components/atoms/buttonprimary'
-import InputField from '../../components/atoms/inputfield'
+import React, { useEffect } from 'react'
 import GeneralLayout from '../../components/layouts/generallayout'
-import { showAlert } from '../../components/organisms/showalerts'
+import InputField from '../../components/atoms/inputfield'
+import { useState } from 'react'
+import ButtonPrimary from '../../components/atoms/buttonprimary'
+import { Home, Wallet } from 'lucide-react'
 import {
   createUserProfile,
   fetchJobType,
-  fetchUserProfile,
   predictUserProfile,
 } from '../../services/userService'
 import { useUserStore } from '../../store/userStore'
 import { useResultStore } from '../../store/resultStore'
+import { showAlert } from '../../components/organisms/showalerts'
+import { useNavigate } from 'react-router-dom'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { formatRupiahInput, handleChangeOnlyDigit } from '../../utils/general'
-import { Loader2 } from 'lucide-react'
 
 const Profiling = () => {
   const [age, setAge] = React.useState('')
@@ -30,8 +30,6 @@ const Profiling = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const username = location.state || {}
-
-  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     console.log('username', username)
@@ -49,6 +47,20 @@ const Profiling = () => {
     }
     init()
   }, [])
+
+  const formatRupiah = (value) => {
+    if (!value) return ''
+    return value
+      .replace(/\D/g, '')
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+      .replace(/(\..*)\./g, '$1')
+  }
+
+  const handleBalanceChange = (e) => {
+    const formattedValue = formatRupiah(e.target.value)
+    setBalance(formattedValue)
+    setAmount(e.target.value)
+  }
 
   const handleAgeChange = (e) => {
     const value = e.target.value
@@ -70,23 +82,19 @@ const Profiling = () => {
 
   const handleGetPredict = async (e) => {
     e.preventDefault()
-    setLoading(true)
     const token = localStorage.getItem('token')
     try {
       const profileData = {
         job_type_id: Number(job),
         married: marital,
         debt_type: loan,
-        account_balance: Number(balance),
+        account_balance: Number(amount),
         age_group: ageGroup,
       }
-      // console.log(profileData)
 
       // 1. Create user profile
       const createResponse = await createUserProfile(token, profileData)
-
-      const profile = await fetchUserProfile(token)
-      setUser(profile)
+      setUser(createResponse)
 
       // 2. Predict user profile
       const predictResponse = await predictUserProfile(token)
@@ -94,23 +102,20 @@ const Profiling = () => {
 
       // Optional: set prediction to state or navigate
       // setPrediction(predictResponse)
-      setLoading(false)
       navigate('/invest-profile')
     } catch (error) {
-      setLoading(false)
       console.error('Error:', error)
     } finally {
-      setLoading(false)
     }
   }
 
   return (
     <GeneralLayout>
       <div className='fixed inset-0 flex items-center justify-center min-h-screen px-4'>
-        <div className='bg-white p-4 sm:p-6 rounded-xl shadow-lg  w-[50%] w-full md:max-w-4xl z-10 flex flex-col gap-4'>
+        <div className='bg-white p-4 sm:p-6 rounded-xl shadow-lg  w-[50%] max-w-4xl z-10 flex flex-col gap-4'>
           {/* Logo + Heading */}
           <div className='flex flex-col items-center gap-2'>
-            <img src='halalina.svg' alt='' className='h-[60px]' />
+            <img src='halalina.svg' alt='' className='h-[80px]' />
             <div className='text-center'>
               <h1 className='font-semibold text-xl sm:text-2xl'>
                 Bantu kami kenal kamu lebih dekat yuk!
@@ -127,11 +132,11 @@ const Profiling = () => {
             {/* Left Side */}
             <div className='w-full lg:w-1/2 flex flex-col gap-3'>
               <div>
-                <label className='block text-[10px] font-medium text-gray-700 mb-1'>
-                  Apa tipe pekerjaan mu?
+                <label className='block label-text text-gray-700 mb-1'>
+                  Apa tipe pekerjaan mu? <span className='text-red-500'>*</span>
                 </label>
                 <select
-                  className='border text-field border-gray-300 rounded-md px-2 py-1 w-full text-sm'
+                  className='border text-field border-gray-300 rounded-md px-2 py-1 w-full'
                   onChange={(e) => setJob(e.target.value)}
                 >
                   <option value={null}>Pilih Tipe Pekerjaan</option>
@@ -143,8 +148,8 @@ const Profiling = () => {
               </div>
 
               <div>
-                <label className='block text-[10px] font-medium mb-1 mt-1'>
-                  Berapa umur kamu?
+                <label className='block label-text mb-1 mt-1'>
+                  Berapa umur kamu? <span className='text-red-500'>*</span>
                 </label>
                 <InputField
                   type='text'
@@ -157,8 +162,8 @@ const Profiling = () => {
               </div>
 
               <div>
-                <label className='block text-[10px] font-medium text-gray-700 mb-1 mt-1'>
-                  Berapa jumlah saldo di tabungan kamu?
+                <label className='block label-text text-gray-700 mb-1 mt-1'>
+                  Berapa jumlah saldo di tabungan kamu? <span className='text-red-500'>*</span>
                 </label>
                 <InputField
                   type='text'
@@ -176,35 +181,45 @@ const Profiling = () => {
             {/* Right Side */}
             <div className='w-full lg:w-1/2 flex flex-col  gap-3'>
               <div>
-                <label className='block text-[10px] font-medium text-gray-700 mb-1'>
-                  Apa kamu sudah menikah?
+                <label className='block label-text text-gray-700 mb-1'>
+                  Apa kamu sudah menikah? <span className='text-red-500'>*</span>
                 </label>
                 <select
                   className='text-field border border-gray-300 rounded-md px-2 py-1 w-full text-sm'
                   onChange={(e) => setMarital(e.target.value)}
                 >
-                  <option value={null}>Status</option>
-                  <option value='single'>Single</option>
-                  <option value='married'>Married</option>
+                  <option className="text-field" value={null}>Status</option>
+                  <option className="text-field" value='single'>Belum Menikah</option>
+                  <option className="text-field" value='married'>Menikah</option>
                 </select>
               </div>
 
               <div className='text-start'>
-                <label className='block text-[10px] font-medium text-gray-700 mb-1 mt-1'>
-                  Apakah kamu mempunyai pinjaman?
+                <label className='block label-text text-gray-700 mb-1 mt-1'>
+                  Apakah kamu mempunya pinjaman?
                 </label>
-                <p className='text-[8px] text-gray-500 mb-1'>
+                <p className='text-[10px] text-gray-500 mb-1'>
                   Abaikan jika tidak punya pinjaman
                 </p>
                 <ul className='space-y-2'>
-                  <li className='flex justify-between items-center'>
+                  <li 
+                    className='flex justify-between items-center' 
+                    onClick={()=>{
+                      if (!loan.includes('Housing')) {
+                        setLoan([...loan, 'Housing']) // tambahkan
+                      } else {
+                        setLoan(loan.filter((item) => item !== 'Housing')) // hapus jika uncheck
+                      }
+                    }}
+                  >
                     <div className='flex gap-2 items-center'>
-                      <Home size={16} />
+                      <Home size={16} color="#12B5A5" />
                       <span className='text-sm'>KPR</span>
                     </div>
                     <input
                       type='checkbox'
                       className='border-[1.5px] border-[#12B5A5]'
+                      checked={loan.includes('Housing')}
                       onChange={(e) => {
                         if (e.target.checked) {
                           setLoan([...loan, 'Housing']) // tambahkan
@@ -215,14 +230,24 @@ const Profiling = () => {
                     />
                   </li>
 
-                  <li className='flex justify-between items-center'>
+                  <li 
+                    className='flex justify-between items-center' 
+                    onClick={()=>{
+                      if (!loan.includes('Loan')) {
+                        setLoan([...loan, 'Loan']) // tambahkan
+                      } else {
+                        setLoan(loan.filter((item) => item !== 'Loan')) // hapus jika uncheck
+                      }
+                    }}
+                  >
                     <div className='flex gap-2 items-center'>
-                      <Wallet size={16} />
+                      <Wallet size={16} color="#12B5A5"/>
                       <span className='text-sm'>Pinjaman</span>
                     </div>
                     <input
                       type='checkbox'
                       className='border-[1.5px] border-[#12B5A5]'
+                      checked={loan.includes('Loan')}
                       onChange={(e) => {
                         if (e.target.checked) {
                           setLoan([...loan, 'Loan'])
@@ -233,6 +258,9 @@ const Profiling = () => {
                     />
                   </li>
                 </ul>
+                              </div>
+              <div>
+                <p className='text-[10px] text-gray-500'><span className='text-red-500'>*</span>Wajib diisi</p>
               </div>
             </div>
           </div>
@@ -240,13 +268,10 @@ const Profiling = () => {
           {/* Button */}
           <div className='mt-3'>
             <ButtonPrimary onClick={(e) => handleGetPredict(e)}>
-              {loading ? (
-                <Loader2 className='mx-auto h-5 w-5 animate-spin' />
-              ) : (
-                'Temukan Rekomendasi Investasi Saya!'
-              )}
+              Temukan Rekomendasi Investasi Saya!
             </ButtonPrimary>
           </div>
+        
         </div>
       </div>
     </GeneralLayout>
