@@ -122,7 +122,7 @@
               />
             </div>
 
-            <div className='flex gap-2'>
+            <div className='flex gap-2 cursor-pointer'>
               <input
                 className='border-[1.5px] border-[#E5E7EA]'
                 type='checkbox'

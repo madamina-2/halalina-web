@@ -206,7 +206,7 @@ export default function DashboardPage() {
                     </p>
                     <a
                       onClick={() => handleSelectedCard(item)}
-                      className='text-emerald-600 text-sm font-semibold underline mt-auto'
+                      className='text-emerald-600 text-sm font-semibold underline mt-auto cursor-pointer'
                     >
                       Baca Selengkapnya
                     </a>
