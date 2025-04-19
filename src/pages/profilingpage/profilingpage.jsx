@@ -231,7 +231,7 @@ const Profiling = () => {
                   Apa tipe pekerjaan mu? <span className='text-red-500'>*</span>
                 </label>
                 <select
-                  className='border text-field border-gray-300 rounded-md px-2 py-1 w-full'
+                  className='border text-field border-gray-300 rounded-md px-2 py-1 w-full cursor-pointer'
                   onChange={(e) => setJob(e.target.value)}
                 >
                   <option value={null}>Pilih Tipe Pekerjaan</option>
@@ -280,7 +280,7 @@ const Profiling = () => {
                   Apa kamu sudah menikah? <span className='text-red-500'>*</span>
                 </label>
                 <select
-                  className='text-field border border-gray-300 rounded-md px-2 py-1 w-full text-sm'
+                  className='text-field border border-gray-300 rounded-md px-2 py-1 w-full text-sm cursor-pointer'
                   onChange={(e) => setMarital(e.target.value)}
                 >
                   <option value={null}>Status</option>
@@ -309,14 +309,14 @@ const Profiling = () => {
                         )
                       }
                     >
-                      <div className='flex gap-2 items-center'>
+                      <div className='flex gap-2 items-center cursor-pointer '>
                         {type === 'Housing' ? <Home size={16} color="#12B5A5" /> : <Wallet size={16} color="#12B5A5" />}
                         <span className='md:text-[16px] sm:text-[14px] text-[10px] '>{type === 'Housing' ? 'KPR' : 'Pinjaman'}</span>
                       </div>
                       
-                      <input
+                      <input 
                         type='checkbox'
-                        className='border-[1.5px] border-[#12B5A5]'
+                        className='border-[1.5px] border-[#12B5A5] cursor-pointer '
                         checked={loan.includes(type)}
                         onChange={() => {}}
                       />
