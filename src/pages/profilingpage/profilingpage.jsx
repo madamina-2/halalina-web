@@ -13,6 +13,7 @@ import { useUserStore } from '../../store/userStore'
 import { useResultStore } from '../../store/resultStore'
 import { showAlert } from '../../components/organisms/showalerts'
 import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { formatRupiahInput, handleChangeOnlyDigit } from '../../utils/general'
 
 const Profiling = () => {
@@ -27,8 +28,11 @@ const Profiling = () => {
   const { setResult } = useResultStore()
   const [amount, setAmount] = useState(0)
   const navigate = useNavigate()
+  const location = useLocation()
+  const username = location.state || {}
 
   useEffect(() => {
+    console.log('username', username)
     const token = localStorage.getItem('token')
     if (!token) return
     const init = async () => {
