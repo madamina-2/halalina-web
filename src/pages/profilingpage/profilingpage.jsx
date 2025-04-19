@@ -108,8 +108,9 @@ const Profiling = () => {
 
   return (
     <GeneralLayout>
+     
       {/* Navbar */}
-      <nav className='sticky top-0 bg-white shadow-md px-8 py-4 flex items-center justify-between z-20'>
+      <nav className='sticky left-0 top-0 bg-white shadow-md px-8 py-4 flex items-center justify-between z-20'>
         <div className='flex items-center gap-3'>
           <img src='/halalina_nocaption.svg' alt='Logo' className='w-10' />
           <span className='text-[#12B5A5] text-xl font-bold'>HALALINA</span>
@@ -207,13 +208,14 @@ const Profiling = () => {
         <div className='fixed inset-0 bg-black opacity-50 z-20' onClick={closeMobileMenu} />
       )}
 
+  
       {/* Main Content */}
-      <div className='fixed inset-0 flex items-center justify-center min-h-screen px-4'>
+      <div className='fixed mt-10 inset-0 flex items-center justify-center min-h-screen px-4 mx-auto'>
         <div className='bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full md:max-w-4xl z-10 flex flex-col gap-4'>
           <div className='flex flex-col items-center gap-2'>
             <img src='halalina.svg' alt='' className='h-[60px]' />
             <div className='text-center'>
-              <h1 className='font-semibold text-xl sm:text-2xl'>
+              <h1 className='font-semibold sm:text-xl md:text-2xl'>
                 Hai, {userName ?? 'Pengguna'}! Bantu kami kenal kamu lebih dekat yuk!
               </h1>
               <p className='text-[#434343] text-[10px] mt-1'>
@@ -225,7 +227,7 @@ const Profiling = () => {
           <div className='flex flex-col lg:flex-row gap-8 mt-2 overflow-auto'>
             <div className='w-full lg:w-1/2 flex flex-col gap-3'>
               <div>
-                <label className='block label-text text-gray-700 mb-1'>
+                <label className='label-text mb-1 md:text-[16px] sm:text-[14px] text-[10px]'>
                   Apa tipe pekerjaan mu? <span className='text-red-500'>*</span>
                 </label>
                 <select
@@ -242,7 +244,7 @@ const Profiling = () => {
               </div>
 
               <div>
-                <label className='block label-text mb-1 mt-1'>
+                <label className='label-text mb-1 md:text-[16px] sm:text-[14px] text-[10px]'>
                   Berapa umur kamu? <span className='text-red-500'>*</span>
                 </label>
                 <InputField
@@ -256,7 +258,7 @@ const Profiling = () => {
               </div>
 
               <div>
-                <label className='block label-text text-gray-700 mb-1 mt-1'>
+                <label className='label-text mb-1 md:text-[16px] sm:text-[14px] text-[10px]'>
                   Berapa jumlah saldo di tabungan kamu? <span className='text-red-500'>*</span>
                 </label>
                 <InputField
@@ -274,7 +276,7 @@ const Profiling = () => {
 
             <div className='w-full lg:w-1/2 flex flex-col gap-3'>
               <div>
-                <label className='block label-text text-gray-700 mb-1'>
+                <label className='label-text mb-1 md:text-[16px] sm:text-[14px] text-[10px] '>
                   Apa kamu sudah menikah? <span className='text-red-500'>*</span>
                 </label>
                 <select
@@ -288,7 +290,7 @@ const Profiling = () => {
               </div>
 
               <div>
-                <label className='block label-text text-gray-700 mb-1 mt-1'>
+                <label className='label-text mb-1 md:text-[16px] sm:text-[14px] text-[10px]'>
                   Apakah kamu mempunyai pinjaman?
                 </label>
                 <p className='text-[10px] text-gray-500 mb-1'>
@@ -309,8 +311,9 @@ const Profiling = () => {
                     >
                       <div className='flex gap-2 items-center'>
                         {type === 'Housing' ? <Home size={16} color="#12B5A5" /> : <Wallet size={16} color="#12B5A5" />}
-                        <span className='text-sm'>{type === 'Housing' ? 'KPR' : 'Pinjaman'}</span>
+                        <span className='md:text-[16px] sm:text-[14px] text-[10px] '>{type === 'Housing' ? 'KPR' : 'Pinjaman'}</span>
                       </div>
+                      
                       <input
                         type='checkbox'
                         className='border-[1.5px] border-[#12B5A5]'
