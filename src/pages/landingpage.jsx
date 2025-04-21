@@ -76,11 +76,11 @@ export default function LandingPage() {
                     <h3 className='text-xl font-bold mb-2 text-center'>
                       {card.title}
                     </h3>
-                    <p className='text-sm'>{card.content.slice(0, 100)}...</p>
+                    <p className='text-sm'>{card.caption.slice(0, 100)}...</p>
                   </div>
                 )
               })}
-              </div>
+            </div>
             <button
               onClick={handleNext}
               className='text-white hover:text-yellow-300'

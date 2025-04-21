@@ -36,12 +36,12 @@ export default function DashboardPage() {
   }
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
 
   const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+    setIsMobileMenuOpen(false)
+  }
 
   return (
     <GeneralLayout>
@@ -51,7 +51,7 @@ export default function DashboardPage() {
           <img src='/halalina_nocaption.svg' alt='Logo' className='w-10' />
           <span className='text-[#12B5A5] text-xl font-bold'>HALALINA</span>
         </div>
-        
+
         {/* Desktop Navigation */}
         <div className='hidden md:flex items-center gap-6 text-sm font-medium'>
           <a
@@ -85,8 +85,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div 
-          onClick={toggleMobileMenu} 
+        <div
+          onClick={toggleMobileMenu}
           className='md:hidden cursor-pointer'
           aria-label={isMobileMenuOpen ? 'Close Menu' : 'Open Menu'}
         >
@@ -95,7 +95,7 @@ export default function DashboardPage() {
       </nav>
 
       {/* Mobile Sidebar Menu */}
-      <div 
+      <div
         className={`
           fixed top-0 left-0 w-[70%] h-full bg-white shadow-lg 
           transform transition-transform duration-300 ease-in-out z-30
@@ -109,8 +109,8 @@ export default function DashboardPage() {
               <img src='/halalina_nocaption.svg' alt='Logo' className='w-10' />
               <span className='text-[#12B5A5] text-xl font-bold'>HALALINA</span>
             </div>
-            <button 
-              onClick={closeMobileMenu} 
+            <button
+              onClick={closeMobileMenu}
               className='text-gray-600 hover:text-[#12B5A5]'
               aria-label='Close Menu'
             >
@@ -129,8 +129,8 @@ export default function DashboardPage() {
             </a>
             <a
               onClick={() => {
-                logout();
-                closeMobileMenu();
+                logout()
+                closeMobileMenu()
               }}
               className='block text-gray-700 hover:bg-emerald-50 p-3 rounded-lg cursor-pointer'
             >
@@ -158,7 +158,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className='text-sm font-medium text-gray-700'>
-                {user.data.user_name ?? 'Nasabah'}
+                {user?.data?.user_name ?? 'Nasabah'}
               </p>
               <p className='text-xs text-gray-500'>Pengguna</p>
             </div>
@@ -168,7 +168,7 @@ export default function DashboardPage() {
 
       {/* Overlay when mobile menu is open */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className='fixed inset-0 bg-black opacity-50 z-20'
           onClick={closeMobileMenu}
         />
