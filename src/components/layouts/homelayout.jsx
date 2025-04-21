@@ -12,7 +12,7 @@ const HomeLayout = ({ children }) => {
         {/* Background image - behind text */}
         <img
           src={customers}
-          alt='Logo'
+          alt=''
           className='w-[80%] max-w-[700px] h-auto absolute bottom-0 left-1/2 -translate-x-1/2 opacity-90'
         />
       </div>

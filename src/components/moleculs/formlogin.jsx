@@ -16,6 +16,7 @@ const FormLogin = () => {
   const { login } = useAuth()
   const navigate = useNavigate()
 
+
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -38,7 +39,7 @@ const FormLogin = () => {
           <div className='flex flex-col items-center'>
             <img
               src='halalina.svg'
-              className='w-[200px] sm:w-[240px] md:w-[275px] h-auto'
+              className='md:h-[200px] sm:h-[150px] h-[100px]'
               alt='Logo Halalina'
             />
           </div>
@@ -70,10 +71,10 @@ const FormLogin = () => {
                 'Masuk'
               )}
             </ButtonPrimary>
-            <p className='text-center text-sm'>
+            <p className='text-center  md:text-[15px] sm:text-[12px] text-[10px]'>
               Belum punya akun?
               <Link to='/register' className='text-[#136A5E] underline ml-1'>
-                Daftar di Sini
+                Daftar Sekarang
               </Link>
             </p>
           </div>
