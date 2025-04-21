@@ -15,6 +15,7 @@ import { useResultStore } from '../../store/resultStore'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { formatRupiahInput, handleChangeOnlyDigit } from '../../utils/general'
 import { useAuth } from '../../context/AuthContext'
+import { Loader2 } from 'lucide-react'
 
 const Profiling = () => {
   const [age, setAge] = React.useState('')
@@ -31,6 +32,8 @@ const Profiling = () => {
   const { userName, logout } = useAuth()
   const [loading, setLoading] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -70,6 +73,8 @@ const Profiling = () => {
     setLoading(true)
     const token = localStorage.getItem('token')
     try {
+      setError('')
+
       const profileData = {
         job_type_id: Number(job),
         married: marital,
@@ -89,6 +94,11 @@ const Profiling = () => {
       navigate('/invest-profile')
     } catch (error) {
       setLoading(false)
+      setError(
+        error.response?.data?.message ||
+          error.response?.data?.msg ||
+          error.message
+      )
       console.error('Error:', error)
     }
   }
@@ -108,7 +118,6 @@ const Profiling = () => {
 
   return (
     <GeneralLayout>
-     
       {/* Navbar */}
       <nav className='sticky left-0 top-0 bg-white shadow-md px-8 py-4 flex items-center justify-between z-20'>
         <div className='flex items-center gap-3'>
@@ -160,7 +169,10 @@ const Profiling = () => {
               <img src='/halalina_nocaption.svg' alt='Logo' className='w-10' />
               <span className='text-[#12B5A5] text-xl font-bold'>HALALINA</span>
             </div>
-            <button onClick={closeMobileMenu} className='text-gray-600 hover:text-[#12B5A5]'>
+            <button
+              onClick={closeMobileMenu}
+              className='text-gray-600 hover:text-[#12B5A5]'
+            >
               <X size={24} />
             </button>
           </div>
@@ -205,10 +217,12 @@ const Profiling = () => {
       </div>
 
       {isMobileMenuOpen && (
-        <div className='fixed inset-0 bg-black opacity-50 z-20' onClick={closeMobileMenu} />
+        <div
+          className='fixed inset-0 bg-black opacity-50 z-20'
+          onClick={closeMobileMenu}
+        />
       )}
 
-  
       {/* Main Content */}
       <div className='fixed mt-10 inset-0 flex items-center justify-center min-h-screen px-4 mx-auto'>
         <div className='bg-white p-4 sm:p-6 rounded-xl shadow-lg w-full md:max-w-4xl z-10 flex flex-col gap-4'>
@@ -216,11 +230,14 @@ const Profiling = () => {
             <img src='halalina.svg' alt='' className='h-[60px]' />
             <div className='text-center'>
               <h1 className='font-semibold sm:text-xl md:text-2xl'>
-                Hai, {userName ?? 'Pengguna'}! Bantu kami kenal kamu lebih dekat yuk!
+                Hai, {userName ?? 'Pengguna'}! Bantu kami kenal kamu lebih dekat
+                yuk!
               </h1>
               <p className='text-[#434343] text-[10px] mt-1'>
-                Yuk, isi profilmu untuk dapat rekomendasi investasi syariah yang sesuai!
+                Yuk, isi profilmu untuk dapat rekomendasi investasi syariah yang
+                sesuai!
               </p>
+              {error && <p className='text-red-500 text-sm'>{error}</p>}
             </div>
           </div>
 
@@ -259,7 +276,8 @@ const Profiling = () => {
 
               <div>
                 <label className='label-text mb-1 md:text-[16px] sm:text-[14px] text-[10px]'>
-                  Berapa jumlah saldo di tabungan kamu? <span className='text-red-500'>*</span>
+                  Berapa jumlah saldo di tabungan kamu?{' '}
+                  <span className='text-red-500'>*</span>
                 </label>
                 <InputField
                   type='text'
@@ -277,7 +295,8 @@ const Profiling = () => {
             <div className='w-full lg:w-1/2 flex flex-col gap-3'>
               <div>
                 <label className='label-text mb-1 md:text-[16px] sm:text-[14px] text-[10px] '>
-                  Apa kamu sudah menikah? <span className='text-red-500'>*</span>
+                  Apa kamu sudah menikah?{' '}
+                  <span className='text-red-500'>*</span>
                 </label>
                 <select
                   className='text-field border border-gray-300 rounded-md px-2 py-1 w-full text-sm cursor-pointer'
@@ -310,11 +329,17 @@ const Profiling = () => {
                       }
                     >
                       <div className='flex gap-2 items-center cursor-pointer '>
-                        {type === 'Housing' ? <Home size={16} color="#12B5A5" /> : <Wallet size={16} color="#12B5A5" />}
-                        <span className='md:text-[16px] sm:text-[14px] text-[10px] '>{type === 'Housing' ? 'KPR' : 'Pinjaman'}</span>
+                        {type === 'Housing' ? (
+                          <Home size={16} color='#12B5A5' />
+                        ) : (
+                          <Wallet size={16} color='#12B5A5' />
+                        )}
+                        <span className='md:text-[16px] sm:text-[14px] text-[10px] '>
+                          {type === 'Housing' ? 'KPR' : 'Pinjaman'}
+                        </span>
                       </div>
-                      
-                      <input 
+
+                      <input
                         type='checkbox'
                         className='border-[1.5px] border-[#12B5A5] cursor-pointer '
                         checked={loan.includes(type)}
@@ -335,7 +360,11 @@ const Profiling = () => {
 
           <div className='mt-3'>
             <ButtonPrimary onClick={handleGetPredict}>
-              Temukan Rekomendasi Investasi Saya!
+              {loading ? (
+                <Loader2 className='mx-auto h-5 w-5 animate-spin' />
+              ) : (
+                'Temukan Rekomendasi Investasi Saya!'
+              )}
             </ButtonPrimary>
           </div>
         </div>
