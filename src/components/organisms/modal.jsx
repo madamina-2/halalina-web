@@ -22,19 +22,29 @@ const Modal = ({
       className='fixed inset-0 z-50 flex items-center justify-center'
     >
       <div className='fixed inset-0 bg-black opacity-60' aria-hidden='true' />
-      <DialogPanel className='relative bg-white max-w-md mx-auto rounded-lg shadow-xl'>
+      <DialogPanel className='relative bg-white max-w-md max-h-[90vh] mx-auto rounded-lg shadow-xl overflow-hidden'>
         {bgImage ? (
-          <img src={bgImage} className='object-cover w-full h-40' alt='' />
+          <img
+            src={bgImage}
+            className='object-cover object-top w-full h-55 rounded-t-lg'
+            alt=''
+          />
         ) : null}
-        <div className='flex items-center flex-col p-6 '>
+        <div className='flex flex-col p-6'>
           <DialogTitle className='text-xl font-bold mb-4 text-center'>
             {data?.title}
           </DialogTitle>
+
+          {/* Konten HTML panjang, bisa di-scroll */}
           {data?.content && (
-            <Description className='text-gray-700 text-justify'>
-              {data?.content}
-            </Description>
+            <div className='text-gray-700 text-justify overflow-y-auto max-h-[50vh] pr-2'>
+              <Description
+                as='div'
+                dangerouslySetInnerHTML={{ __html: data.content }}
+              />
+            </div>
           )}
+
           <button
             onClick={onClickButton ? onClickButton : onClose}
             className={`mt-4 bg-[#12B5A5] text-white hover:bg-emerald-800 py-1 px-20 rounded-xl ${
